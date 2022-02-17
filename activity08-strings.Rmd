@@ -10,7 +10,9 @@ Load the entirety of the `{tidyverse}`.
 You will do a little work with dates in this activity so also load `{lubridate}`.
 Be sure to avoid printing out any unnecessary information and give the code chunk a meaningful name.
 
-
+```{r}
+library(tidyverse)
+```
 
 
 Cheatsheets that you might want to add to your collection:
@@ -23,6 +25,10 @@ Notice that this file is a tab-delimited file that is stored as a `.txt` file.
 Therefore, you will need to use either `read_delim` with a `delim = ...` argument or (better) `read_tsv`.
 Assign the file to a meaningful object name, be sure to avoid printing any unnecessary information, and give the code chunk a meaningful name.
 
+```{r}
+setwd("~/STA518/Preps/activity08-special-variables")
+df = read_tsv(here::here('data','billboard_songs.txt'))
+```
 
 
 
@@ -45,9 +51,12 @@ This is a long dataset (34,605 observations)!
 
 When you look at ``chart date`` you'll notice that it was read in as a numeric (`<dbl>`) variable type.
 What does the format of the date appear to be in?
+```{r}
+head(df$`chart date`,10)
+```
 
 **Response**:
-
+yyyymmdd, and may need to change to character if using stringr
 
 In this activity, we will be using `str_...` functions to split or find patterns in strings of information.
 Do the following with your dataset:
@@ -57,7 +66,16 @@ Do the following with your dataset:
 - Replace/overwrite the variable `date` with an updated format using `lubridate::make_date`.
 
 Once you have verified that this worked, overwrite your data object.
+```{r}
+df$date = as.character(df$`chart date`)
+df$y = str_sub(df$date,1,4)
+df$m = str_sub(df$date,5,6)
+df$d = str_sub(df$date,7,8)
+```
 
+```{r}
+df$date2 = lubridate::as_date(df$date)
+```
 
 
 
@@ -66,16 +84,36 @@ Once you have verified that this worked, overwrite your data object.
 What 10 songs spent the longest on the charts?
 Give only the title, artists, and weeks.
 
+```{r}
+df$weeks=df$`weeks on chart`
+df%>%
+  select('title','artist','weeks')%>%
+  slice_max(order_by = weeks,n=10)
+  
+```
 
 
 
 **Response**:
+```{r}
+library(lubridate)
+```
 
 
 What date did the oldest song(s) in this dataset leave the charts?
 Give only the *distinct* dates.
 
+```{r}
+df$date3=as.numeric(df$date2)
+df$date4=df$date3+7*df$weeks
+df$dateOut = lubridate::as_date(df$date4)
+```
 
+```{r}
+df%>%
+  select('title','artist','dateOut')%>%
+  slice_min(order_by = df$date4,n=10)
+```
 
 
 **Response**:

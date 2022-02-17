@@ -110,6 +110,7 @@ a%>%
   slice_max(order_by = n,n=4)
 ```
 
+<<<<<<< HEAD
 ```{r}
 df %>% 
   mutate( artist = fct_lump(artist, prop = 0.0025),
@@ -117,6 +118,8 @@ df %>%
          artist = fct_rev(artist)) %>%          
   ggplot(mapping = aes(x = artist)) +  geom_bar()
 ```
+=======
+>>>>>>> 6f8de9f8d4915c736485c9b3babe1db6083602fd
 
 
 ## Attribution
