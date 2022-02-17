@@ -89,11 +89,17 @@ d %>%
   pull('artist')
 ```
 
+<<<<<<< HEAD
     ## [1] "ZZ TOP"                                   
     ## [2] "LES McCANN & Eddie HARRIS"                
     ## [3] "STAN KENTON & HIS ORCHESTRA / GENE HOWARD"
     ## [4] "MIKA"                                     
     ## [5] "FRANKIE VALLI"
+=======
+    ## [1] "THE FINATTICZ"               "DION"                       
+    ## [3] "NEIL YOUNG with CRAZY HORSE" "THE ADC BAND"               
+    ## [5] "SPANKY AND OUR GANG"
+>>>>>>> 6f8de9f8d4915c736485c9b3babe1db6083602fd
 
 ## Analysis
 
@@ -111,10 +117,17 @@ d%>%
 ```
 
     ## # A tibble: 2 x 5
+<<<<<<< HEAD
     ##   title                 artist      `overall peak` `weeks on chart` `chart date`
     ##   <chr>                 <chr>                <dbl>            <dbl>        <dbl>
     ## 1 Can't Take My Eyes O… FRANKIE VA…              2               17     19670902
     ## 2 I Thank You           ZZ TOP                  34               11     19800329
+=======
+    ##   title       artist                `overall peak` `weeks on chart` `chart date`
+    ##   <chr>       <chr>                          <dbl>            <dbl>        <dbl>
+    ## 1 The Wander… DION                               2               18     19620407
+    ## 2 Cinnamon G… NEIL YOUNG with CRAZ…             55               11     19700814
+>>>>>>> 6f8de9f8d4915c736485c9b3babe1db6083602fd
 
 -   What distinct date did the oldest song(s) leave the charts?
 
@@ -125,9 +138,15 @@ d%>%
 ```
 
     ## # A tibble: 1 x 5
+<<<<<<< HEAD
     ##   title           artist            `overall peak` `weeks on chart` `chart date`
     ##   <chr>           <chr>                      <dbl>            <dbl>        <dbl>
     ## 1 How Many Heart… STAN KENTON & HI…              9                1     19441028
+=======
+    ##   title        artist `overall peak` `weeks on chart` `chart date`
+    ##   <chr>        <chr>           <dbl>            <dbl>        <dbl>
+    ## 1 The Wanderer DION                2               18     19620407
+>>>>>>> 6f8de9f8d4915c736485c9b3babe1db6083602fd
 
 Assuming you were 16 years old by 2015. - Which artist has been
 **featured** on the most Billboard charting songs? - Which artist has
@@ -159,6 +178,7 @@ a%>%
     ## 3 LIL         144
     ## 4 WAYNE        97
 
+<<<<<<< HEAD
 ``` r
 df %>% 
   mutate( artist = fct_lump(artist, prop = 0.0025),
@@ -169,6 +189,8 @@ df %>%
 
 ![](activity08-special-variables_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
+=======
+>>>>>>> 6f8de9f8d4915c736485c9b3babe1db6083602fd
 ## Attribution
 
 Parts of this Activity are based on a lab from [Dr. Kelly
