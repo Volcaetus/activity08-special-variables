@@ -13,6 +13,9 @@ Be sure to avoid printing out any unnecessary information and give the code chun
 
 
 
+```{r}
+library(tidyverse)
+```
 
 Cheatsheets that you might want to add to your collection:
 
@@ -26,6 +29,11 @@ Therefore, you will need to use either `read_delim` with a `delim = ...` argumen
 Assign the file to a meaningful object name, be sure to avoid printing any unnecessary information, and give the code chunk a meaningful name.
 
 
+
+```{r}
+setwd("~/STA518/Preps/activity08-special-variables")
+df = read_tsv(here::here('data','billboard_songs.txt'))
+```
 
 
 These data include information on song popularity.
@@ -43,19 +51,19 @@ This is a long dataset (34,605 observations)!
 You might like to create a small dataset with only, say, 200 of the rows to try all your code out on the smaller dataset first, and then only run the analysis of the full data after you have experienced everything.
 One way to do this is to use a function like `slice_sample(n = ...)` from `{dplyr}`.
 
-```
+```{r}
 # Randomly sample 200 rows
-dataset %>% 
-  slice_sample(n = 200)
+d=df %>% 
+  slice_sample(n = 5)
 ```
 
 If you wish to work with `{stringr}`, I find it useful to work on vectors first.
 A way to do this is with `pull` from `{dplyr}`.
 
-```
+```{r}
 # Turn variable from dataset into a vector
-dataset %>% 
-  pull(variable)
+d %>% 
+  pull('artist')
 ```
 
 ## Analysis
@@ -64,13 +72,52 @@ You are encouraged to explore these data as you wish using functions from the pa
 Some ideas that you might be interested in:
 
 - What 10 songs (display title, artist, and week) were on the charts for the longest?
+```{r}
+a = d$`weeks on chart`
+d%>%
+  slice_max(order_by = a, n = 2)
+```
+
+
 - What distinct date did the oldest song(s) leave the charts?
-- What songs could have been played at your 16th birthday party?
-That is, which songs that eventually peaked at #1  **entered** the charts within a couple months (before or after) your 16th birthday?
+
+```{r}
+a = d$`chart date`
+d%>%
+  slice_min(order_by = a, n = 1)
+```
+
+
 Assuming you were 16 years old by 2015.
 - Which artist has been **featured** on the most Billboard charting songs?
 - Which artist has **collaborated** on the most Billboard charting songs?
 - Create some data visualization controlling the order of the character/string variables.
+
+```{r}
+try=df %>%
+  select(title,artist,'weeks on chart')%>%
+  filter(str_detect(artist,'featuring'))%>%
+  separate_rows(artist)%>%
+  pull(artist)
+
+```
+
+```{r}
+a=tibble(artist = try) %>% 
+  group_by(artist) %>% 
+  summarise(n = n())
+a%>%
+  slice_max(order_by = n,n=4)
+```
+
+```{r}
+df %>% 
+  mutate( artist = fct_lump(artist, prop = 0.0025),
+         artist = fct_infreq(artist),            
+         artist = fct_rev(artist)) %>%          
+  ggplot(mapping = aes(x = artist)) +  geom_bar()
+```
+
 
 ## Attribution
 
