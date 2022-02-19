@@ -202,14 +202,58 @@ data frame (tibble). Using this function will help us avoid many
 “`coercing`” warnings - I find it easier to work with vectors of
 strings.
 
-Using the `artist_credentials` vector, do the following. I recommend
-that you do one bullet at time and verify that it worked.
+``` r
+try=df %>%
+  select(artist)%>%
+  filter(str_detect(artist,'featuring'))
+```
 
--   Use `str_subset` to pick only the observations that only include
-    `"featuring"`,*then*
--   Use `str_replace_all` to remove everything before and including
-    “featuring” for each of these observations (i.e., replace it with
-    `""`), *then*
+``` r
+try2=df %>%
+  select(artist)%>%
+  filter(str_detect(artist,'featuring'))%>%
+  pull(artist)
+```
+
+``` r
+get_after_period <- function(my_vector) {    
+
+        # Return a string vector without the characters
+        # before a period (excluding the period)
+
+        # my_vector, a string vector
+
+        str_sub(my_vector, str_locate(my_vector, "\\.")[,1]+1) 
+
+        }
+```
+
+``` r
+a=try2[1]
+a
+```
+
+    ## [1] "MARK RONSON featuring BRUNO MARS"
+
+``` r
+b=str_replace_all(a,"featuring",".")
+get_after_period(b)
+```
+
+    ## [1] " BRUNO MARS"
+
+``` r
+b=str_replace_all(try2,"featuring",".")
+try3=get_after_period(b)
+try3[1:10]
+```
+
+    ##  [1] " BRUNO MARS"                     " JUICY J"                       
+    ##  [3] " DRAKE, LIL WAYNE & CHRIS BROWN" " DRAKE & LIL WAYNE"             
+    ##  [5] " JUICY J"                        " E-40"                          
+    ##  [7] " JEREMIH"                        " SAGE THE GEMINI & LOOKAS"      
+    ##  [9] " ELLIE GOULDING"                 " ASHLEY MONROE"
+
 -   Use `str_split` to separate entries with multiple featured artist -
     these could include `,`, `&`, `or` (note the whitespace), or `and`
     (note the whitespace) (this should produce a list), *then*
@@ -218,6 +262,33 @@ that you do one bullet at time and verify that it worked.
     point), *then*
 -   Use `str_trim` to remove whitespace from `"both"` sides of each
     entry.
+
+``` r
+try4 = str_split(try3,'[,|&|or|and]')
+try5 = str_trim(try4,side=c("both"))
+```
+
+    ## Warning in stri_trim_both(string): argument is not an atomic vector; coercing
+
+``` r
+try6=str_count(try5)
+```
+
+``` r
+df1 = data.frame(try5,try6)
+df1%>%
+  select(try5,try6)%>%
+  slice_max(order_by = try6,n=5)
+```
+
+    ##                                                         try5 try6
+    ## 1 c("I.AM . MILEY CYRUS", " FRENCH MONTANA", " WIZ KHALIFA")   58
+    ## 2  c(" CHRIS BROWN", " TYGA", " WIZ KHALIFA ", " LIL WAYNE")   57
+    ## 3   c(" LIL WAYNE ", " FRENCH MONTANA ", "", " ", " TOO SH")   56
+    ## 4   c(" LIL WAYNE", " WIZ KHALIFA", " T.I. ", " ANDRE 3000")   56
+    ## 5   c(" STEADY MOBB'N", " MIA X", " MO B. DICK ", " O'DELL")   56
+
+note to self, it appears to be lil wayne, I screwed up some trimming
 
 When you verify that this works, save this information into an object
 called `feat_artist`.
