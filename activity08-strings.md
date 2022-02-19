@@ -202,6 +202,19 @@ data frame (tibble). Using this function will help us avoid many
 “`coercing`” warnings - I find it easier to work with vectors of
 strings.
 
+``` r
+try=df %>%
+  select(artist)%>%
+  filter(str_detect(artist,'featuring'))
+```
+
+``` r
+try2=df %>%
+  select(artist)%>%
+  filter(str_detect(artist,'featuring'))%>%
+  pull(artist)
+```
+
 Using the `artist_credentials` vector, do the following. I recommend
 that you do one bullet at time and verify that it worked.
 
