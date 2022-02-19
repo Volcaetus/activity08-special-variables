@@ -208,6 +208,8 @@ try=df %>%
   filter(str_detect(artist,'featuring'))
 ```
 
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+
 ``` r
 try2=df %>%
   select(artist)%>%
@@ -254,6 +256,19 @@ try3[1:10]
     ##  [7] " JEREMIH"                        " SAGE THE GEMINI & LOOKAS"      
     ##  [9] " ELLIE GOULDING"                 " ASHLEY MONROE"
 
+=======
+
+``` r
+try2=df %>%
+  select(artist)%>%
+  filter(str_detect(artist,'featuring'))%>%
+  pull(artist)
+```
+
+Using the `artist_credentials` vector, do the following. I recommend
+that you do one bullet at time and verify that it worked.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 05f51ba58ee3e0a0dc6cf0b25372f84c759f778b
+
 -   Use `str_split` to separate entries with multiple featured artist -
     these could include `,`, `&`, `or` (note the whitespace), or `and`
     (note the whitespace) (this should produce a list), *then*
@@ -287,60 +302,3 @@ df1%>%
     ## 3   c(" LIL WAYNE ", " FRENCH MONTANA ", "", " ", " TOO SH")   56
     ## 4   c(" LIL WAYNE", " WIZ KHALIFA", " T.I. ", " ANDRE 3000")   56
     ## 5   c(" STEADY MOBB'N", " MIA X", " MO B. DICK ", " O'DELL")   56
-
-note to self, it appears to be lil wayne, I screwed up some trimming
-
-When you verify that this works, save this information into an object
-called `feat_artist`.
-
-Now you can use this information to answer the question above.
-
-**Response**:
-
-Which artist has **collaborated** on the most Billboard charting songs?
-
-Using the `artist_credentials` vector you created before, do the
-following:
-
--   Use `str_replace_all` to remove everything after and including
-    “featuring” for each of these observations (i.e., replace it with
-    `""`), *then*
--   Use `str_extract_all` to separate entries by `,` or `&`, *then*
--   Use `unlist` to lengthen all collaborating artists into one vector,
-    *then*
--   Use `str_trim` to remove whitespace from `"both"` sides of each
-    entry.
-
-When you verify that this works, save this information into an object
-called `collab_artist`.
-
-Now you can use this information to answer the question above.
-
-#### Challenge 1
-
-What songs could have been played at your 16th birthday party? That is,
-which songs that eventually peaked at \#1 **entered** the charts within
-a couple months (before or after) your 16th birthday? Give only the song
-title, artist, and date of chart entry.
-
-Note that this might not be possible depending on when your 16th
-birthday occurred (i.e., if you turned 16 after March 7, 2015 - I need
-to find more recent songs :/).
-
-**Response**:
-
-## Challenge 2: Data Exploration
-
-This is somewhat unrelated to the steps you completed in the rest of
-this activity, but you have added experience with new tools that you may
-find useful.
-
-Create some visual representation or summary table of these data. I
-would encourage you to explore how you can use `{forcats}` to help make
-your visual/table more human-readable/effective for telling the story of
-your exploration.
-
-## Attribution
-
-Parts of this Activity are based on a lab from [Dr. Kelly
-Bodwin’s](https://www.kelly-bodwin.com/) STAT 331 course.
